@@ -29,22 +29,22 @@ func TestRequest_Connect(t *testing.T) {
 	if err != nil {
 		t.Fatalf("err: %v", err)
 	}
-	go func() {
+	go func() { //nolint:staticcheck
 		conn, err := l.Accept()
 		if err != nil {
-			t.Fatalf("err: %v", err)
+			t.Fatalf("err: %v", err) //nolint:govet,staticcheck
 		}
-		defer conn.Close()
+		defer conn.Close() //nolint:errcheck
 
 		buf := make([]byte, 4)
 		if _, err := io.ReadAtLeast(conn, buf, 4); err != nil {
-			t.Fatalf("err: %v", err)
+			t.Fatalf("err: %v", err) //nolint:govet
 		}
 
 		if !bytes.Equal(buf, []byte("ping")) {
-			t.Fatalf("bad: %v", buf)
+			t.Fatalf("bad: %v", buf) //nolint:govet
 		}
-		conn.Write([]byte("pong"))
+		conn.Write([]byte("pong")) //nolint:errcheck
 	}()
 	lAddr := l.Addr().(*net.TCPAddr)
 
@@ -104,22 +104,22 @@ func TestRequest_Connect_RuleFail(t *testing.T) {
 	if err != nil {
 		t.Fatalf("err: %v", err)
 	}
-	go func() {
+	go func() { //nolint:staticcheck
 		conn, err := l.Accept()
 		if err != nil {
-			t.Fatalf("err: %v", err)
+			t.Fatalf("err: %v", err) //nolint:govet,staticcheck
 		}
-		defer conn.Close()
+		defer conn.Close() //nolint:errcheck
 
 		buf := make([]byte, 4)
 		if _, err := io.ReadAtLeast(conn, buf, 4); err != nil {
-			t.Fatalf("err: %v", err)
+			t.Fatalf("err: %v", err) //nolint:govet
 		}
 
 		if !bytes.Equal(buf, []byte("ping")) {
-			t.Fatalf("bad: %v", buf)
+			t.Fatalf("bad: %v", buf) //nolint:govet
 		}
-		conn.Write([]byte("pong"))
+		conn.Write([]byte("pong")) //nolint:errcheck
 	}()
 	lAddr := l.Addr().(*net.TCPAddr)
 
